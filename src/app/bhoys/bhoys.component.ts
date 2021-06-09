@@ -84,15 +84,15 @@ export class BhoysComponent implements OnInit {
   teamDict: Dictionary<string[]> = {};
   teamNamesDict: Dictionary<string> = {};
   players = [
-    { name: "Niall Hughes", teams: ["England","Switzerland","Austria","Hungary"]},
-{ name: "David O'Hara", teams: ["Italy","Croatia","Slovakia","North Macedonia"]},
-{ name: "Eoghan Flynn", teams: ["Spain","Wales","Ukraine","Czech Republic"]},
-{ name: "Matty McGeogh", teams: ["Portugal","Netherlands","Poland","Russia"]},
-{ name: "Jono Andrews", teams: ["France","Denmark","Ukraine","Scotland"]},
-{ name: "Justin Ferris", teams: ["Belgium","Germany","Sweden","Scotland"]},
-{ name: "Mark Harley", teams: ["Portugal","Wales","Sweden","Finland"]},
-{ name: "Peter Rooney", teams: ["Spain","Netherlands","Turkey","Hungary"]},
-{ name: "Paul St Ledger", teams: ["France","Croatia","Austria","Russia"]},
+    { name: "Niall Hughes", teams: ["Italy","Croatia","Slovakia","Russia"]},
+{ name: "David O'Hara", teams: ["England","Germany","Poland","Russia"]},
+{ name: "Eoghan Flynn", teams: ["Spain","Denmark","Turkey","North Macedonia"]},
+{ name: "Matty McGeogh", teams: ["Portugal","Switzerland","Austria","Czech Republic"]},
+{ name: "Jono Andrews", teams: ["Belgium","Netherlands","Sweden","Hungary"]},
+{ name: "Justin Ferris", teams: ["France","Wales","Ukraine","Finland"]},
+{ name: "Mark Harley", teams: ["Spain","Switzerland","Ukraine","Hungary"]},
+{ name: "Peter Rooney", teams: ["France","Netherlands","Poland","Scotland"]},
+{ name: "Paul St Ledger", teams: ["Portugal","Croatia","Turkey","Finland"]},
   ]
        
    rows = [] as Standing[];

@@ -84,16 +84,24 @@ export class MowComponent implements OnInit {
   teamDict: Dictionary<string[]> = {};
   teamNamesDict: Dictionary<string> = {};
   players = [
-    { name: "Laura", teams: ["Spain","Croatia","Ukraine","Russia"]},
-{ name: "Niall", teams: ["France","Denmark","Poland","North Macedonia"]},
-{ name: "Billy", teams: ["Portugal","Switzerland","Sweden","Finland"]},
-{ name: "Emma", teams: ["England","Switzerland","Austria","Hungary"]},
-{ name: "Majella", teams: ["Italy","Netherlands","Slovakia","Czech Republic"]},
-{ name: "John", teams: ["Belgium","Wales","Slovakia","Hungary"]},
-{ name: "Paddy", teams: ["England","Germany","Sweden","North Macedonia"]},
-{ name: "Siobhan", teams: ["Portugal","Wales","Poland","Scotland"]},
-{ name: "Roisin", teams: ["Spain","Netherlands","Turkey","Scotland"]},
-{ name: "Darren", teams: ["France","Croatia","Turkey","Finland"]},
+    { name: "Niall Hughes", teams: ["Portugal","Switzerland","Sweden","Czech Republic"]},
+{ name: "David O'Hara", teams: ["Belgium","Wales","Poland","Hungary"]},
+{ name: "William Moore", teams: ["France","Wales","Slovakia","Scotland"]},
+{ name: "Robert Lynch", teams: ["Italy","Croatia","Ukraine","Russia"]},
+{ name: "David Casey", teams: ["Spain","Netherlands","Turkey","Russia"]},
+{ name: "John Fleming", teams: ["England","Germany","Turkey","Russia"]},
+{ name: "Sean Hussey", teams: ["Italy","Germany","Poland","Czech Republic"]},
+{ name: "Fintan McCloskey", teams: ["Portugal","Wales","Austria","Finland"]},
+{ name: "Fiachra Cassin", teams: ["Spain","Wales","Austria","Hungary"]},
+{ name: "Fran Sheridan", teams: ["England","Netherlands","Sweden","Russia"]},
+{ name: "Donal Sheridan", teams: ["Belgium","Croatia","Sweden","North Macedonia"]},
+{ name: "Shane Moore", teams: ["France","Denmark","Slovakia","North Macedonia"]},
+{ name: "Rob Fay", teams: ["Spain","Wales","Ukraine","Czech Republic"]},
+{ name: "Conor Devlin", teams: ["Belgium","Netherlands","Turkey","Hungary"]},
+{ name: "Conor Moore", teams: ["England","Netherlands","Slovakia","Hungary"]},
+{ name: "Joey McKenna", teams: ["Italy","Croatia","Sweden","Finland"]},
+{ name: "Mark Hughes", teams: ["France","Switzerland","Austria","Scotland"]},
+{ name: "Eoin Moore", teams: ["Portugal","Switzerland","Poland","Scotland"]},
   ]
        
    rows = [] as Standing[];
