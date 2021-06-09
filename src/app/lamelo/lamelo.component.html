@@ -1,0 +1,104 @@
+<h1>Standings</h1>
+<h3 style="text-align:right;"><i>Sponsored by Lamelo Ltd</i></h3>
+<hr>
+<table id="users">
+    <tr>
+      <th *ngFor = "let column of headers">
+        {{column}}
+      </th>
+    </tr>
+  
+    <tr *ngFor="let row of rows ">
+      <td>{{ row.Player }}</td>
+      <td>{{ row.Played }}</td>
+      <td>{{ row.Wins }}</td>
+      <td>{{ row.Losses }}</td>
+      <td>{{ row.Draws }}</td>
+      <td>{{ row.Scored }}</td>
+      <td>{{ row.Conceded }}</td>
+      <td>{{ row.Difference }}</td>
+      <td>{{ row.Points }}</td>
+    </tr>   
+  
+  </table>
+  <mat-form-field>
+    <mat-label>Filter Fixtures / Results</mat-label>
+    <mat-select #mySelect (selectionChange)="onChanged($event)">
+      <mat-option>All Players</mat-option>
+      <mat-option *ngFor="let player of players" [value]="player">
+        {{player.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+
+<mat-tab-group  mat-align-tabs="start">
+  <mat-tab label="Fixtures"> 
+    <div class="container">
+      <table id="users" class="table table-striped table-bordered">
+          <thead>
+              <tr>
+                  <th>Team A</th>
+                  <th>Team B</th>
+                  <th>Date</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let fixture of fixtures">
+                  <td>{{fixture.home_team_ui}} ({{fixture.home_player}})</td>
+                  <td>{{fixture.away_team_ui}} ({{fixture.away_player}})</td>
+                  <td>{{fixture.date| date: 'dd/MM/yyyy'}}</td>
+              </tr>
+          </tbody>
+      </table>
+    </div>  
+  </mat-tab>
+  <mat-tab label="Results"> 
+    <div class="container">
+      <table id="users" class="table table-striped table-bordered">
+          <thead>
+              <tr>
+                  <th>Team A</th>
+                  <th>Score</th>
+                  <th>Team B</th>
+                  <th>Date</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let result of results">
+                  <td>{{result.home_team}} ({{result.home_player}})</td>
+                  <td>{{result.home_result}} - {{result.away_result}}</td>
+                  <td>{{result.away_team}} ({{result.away_player}})</td>
+                  <td>{{result.date| date: 'dd/MM/yyyy'}}</td>
+              </tr>
+          </tbody>
+      </table>
+    </div>  
+</mat-tab>
+<mat-tab label="Players"> 
+  <div class="container">
+    <table id="users" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Pot A Team</th>
+                <th>Pot B Team</th>
+                <th>Pot C Team</th>
+                <th>Pot D Team</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let player of players">
+              <td>{{player.name}}</td>
+              <td>{{player.teams[0]}}</td>
+              <td>{{player.teams[1]}}</td>
+              <td>{{player.teams[2]}}</td>
+              <td>{{player.teams[3]}}</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>  
+</mat-tab>
+</mat-tab-group>
+    
