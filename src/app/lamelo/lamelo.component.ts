@@ -82,17 +82,19 @@ export class LameloComponent implements OnInit {
   all_results = [] as any;
   playerNames = [] as any;
   headers = ["Player","Played","Wins","Losses","Draws","Scored","Conceded","Difference","Points"]
-  teamDict: Dictionary<string> = {};
+  teamDict: Dictionary<string[]> = {};
   teamNamesDict: Dictionary<string> = {};
   players = [
-    { name: "Niall Hughes", teams: ["Portugal","Netherlands","Sweden","Finland"]},
-{ name: "David O'Hara", teams: ["England","Switzerland","Sweden","Finland"]},
-{ name: "Eoghan Flynn", teams: ["Belgium","Wales","Slovakia","Hungary"]},
-{ name: "Matty McGeogh", teams: ["Spain","Germany","Turkey","Scotland"]},
-{ name: "Jono Andrews", teams: ["France","Denmark","Poland","Czech Republic"]},
-{ name: "Justin Ferris", teams: ["Italy","Croatia","Austria","Russia"]},
-{ name: "Mark Harley", teams: ["Spain","Croatia","Ukraine","Russia"]},
-{ name: "Peter Rooney", teams: ["England","Denmark","Ukraine","Hungary"]},
+    { name: "Laura", teams: ["Spain","Croatia","Ukraine","Russia"]},
+{ name: "Niall", teams: ["France","Denmark","Poland","North Macedonia"]},
+{ name: "Billy", teams: ["Portugal","Switzerland","Sweden","Finland"]},
+{ name: "Emma", teams: ["England","Switzerland","Austria","Hungary"]},
+{ name: "Majella", teams: ["Italy","Netherlands","Slovakia","Czech Republic"]},
+{ name: "John", teams: ["Belgium","Wales","Slovakia","Hungary"]},
+{ name: "Paddy", teams: ["England","Germany","Sweden","North Macedonia"]},
+{ name: "Siobhan", teams: ["Portugal","Wales","Poland","Scotland"]},
+{ name: "Roisin", teams: ["Spain","Netherlands","Turkey","Scotland"]},
+{ name: "Darren", teams: ["France","Croatia","Turkey","Finland"]},
   ]
        
    rows = [] as Standing[];
@@ -118,8 +120,15 @@ export class LameloComponent implements OnInit {
   getPlayerData()
   {
     for(let i=0; i<this.players.length; i++){
-      for(let j=0; j<this.players[i].teams.length; j++){        
-        this.teamDict[this.players[i].teams[j]] =  this.players[i].name;  
+      for(let j=0; j<this.players[i].teams.length; j++){      
+        if(this.players[i].teams[j] in this.teamDict)  
+        {
+          this.teamDict[this.players[i].teams[j]].push(this.players[i].name);
+        }
+        else
+        { 
+          this.teamDict[this.players[i].teams[j]] =  [this.players[i].name]
+        } 
       }
     }
   }
@@ -152,19 +161,25 @@ export class LameloComponent implements OnInit {
   {
     let fixtures = [] as Match[]
     let results = []
+    console.log(this.teamNamesDict)
+    console.log(this.teamDict)
     for(let i=0; i<data.groups.length; i++){
       for(let j=0; j<data.groups[i].matches.length; j++){
         var match = data.groups[i].matches[j];
+        
+        console.log(match)
         match.home_team_ui = this.teamNamesDict[match.home_team]
         match.away_team_ui = this.teamNamesDict[match.away_team]
-        match.home_player = this.teamDict[match.home_team_ui]
-        match.away_player = this.teamDict[match.away_team_ui]
+        match.home_player = this.teamDict[match.home_team_ui].join(", ",)
+        match.away_player = this.teamDict[match.away_team_ui].join(", ",)
         if(match.finished)
           results.push(match);
         else
           fixtures.push(match);
       }
     }
+    
+    console.log(this.fixtures)
     this.fixtures = fixtures.sort((a, b) => parseInt(a.id) - parseInt(b.id));
     this.all_fixtures = this.fixtures
     this.results = results.sort((a, b) => parseInt(a.id) - parseInt(b.id));
@@ -263,14 +278,16 @@ export class LameloComponent implements OnInit {
     let player = value.value.name;
     let fixtures = []
     let results = []
+    console.log(player)
     for(let i=0; i<this.all_fixtures.length; i++){
-      if(this.all_fixtures[i].home_player == player 
-        || this.all_fixtures[i].away_player == player)
+      console.log(this.all_fixtures[i])
+      if(this.all_fixtures[i].home_player.includes(player) 
+        || this.all_fixtures[i].away_player.includes(player))
         fixtures.push(this.all_fixtures[i])
     }
     for(let i=0; i<this.all_results.length; i++){
-      if(this.all_results[i].home_player == player 
-        || this.all_results[i].away_player == player)
+      if(this.all_results[i].home_player.includes(player) 
+        || this.all_results[i].away_player.includes(player))
         results.push(this.all_results[i])
     }
     this.fixtures = fixtures
