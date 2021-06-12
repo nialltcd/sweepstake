@@ -4,6 +4,9 @@ h1
     color: #1976d2;
 }
 
+table { 
+  table-layout:fixed;
+}
 
 #users {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -14,6 +17,9 @@ h1
   #users td, #users th {
     border: 1px solid #ddd;
     padding: 8px;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    word-wrap: break-word;
   }
   
   #users tr:nth-child(even){background-color: #f2f2f2;}
@@ -31,3 +37,11 @@ h1
   .mat-tab-group {
     margin-bottom: 48px;
   }
+
+  @media only screen and (max-width: 480px) {
+    /* horizontal scrollbar for tables if mobile screen */
+    .tablemobile {
+        overflow-x: auto;
+        display: block;
+    }
+}
