@@ -4,12 +4,14 @@ import { MowComponent } from './mow/mow.component';
 import { LameloComponent } from './lamelo/lamelo.component';
 import { BhoysComponent } from './bhoys/bhoys.component';
 import { SigComponent } from './sig/sig.component';
+import { DolanComponent } from './dolan/dolan.component';
 
 const routes: Routes = [
   { path: 'mow', component: MowComponent},
   { path: 'lamelo', component: LameloComponent},
   { path: 'bhoys', component: BhoysComponent},
-  { path: 'sig', component: SigComponent}
+  { path: 'sig', component: SigComponent},
+  { path: 'dolan', component: DolanComponent}
 ];
 
 @NgModule({

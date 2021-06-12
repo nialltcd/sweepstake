@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { LameloComponent } from './lamelo/lamelo.component';
 import { BhoysComponent } from './bhoys/bhoys.component';
 import { SigComponent } from './sig/sig.component';
+import { DolanComponent } from './dolan/dolan.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +22,7 @@ import { SigComponent } from './sig/sig.component';
     LameloComponent,
     BhoysComponent,
     SigComponent,
+    DolanComponent,
   ],
   imports: [
     BrowserModule,
