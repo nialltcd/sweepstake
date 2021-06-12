@@ -48,7 +48,7 @@
               <tr *ngFor="let fixture of fixtures">
                   <td>{{fixture.home_team_ui}} ({{fixture.home_player}})</td>
                   <td>{{fixture.away_team_ui}} ({{fixture.away_player}})</td>
-                  <td>{{fixture.date| date: 'dd/MM/yyyy'}}</td>
+                  <td>{{fixture.date| date: 'dd/MM/yyyy HH:mm'}}</td>
               </tr>
           </tbody>
       </table>
@@ -70,7 +70,7 @@
                   <td>{{result.home_team}} ({{result.home_player}})</td>
                   <td>{{result.home_result}} - {{result.away_result}}</td>
                   <td>{{result.away_team}} ({{result.away_player}})</td>
-                  <td>{{result.date| date: 'dd/MM/yyyy'}}</td>
+                  <td>{{result.date| date: 'dd/MM/yyyy HH:mm'}}</td>
               </tr>
           </tbody>
       </table>
