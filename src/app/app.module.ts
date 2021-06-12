@@ -12,6 +12,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { LameloComponent } from './lamelo/lamelo.component';
 import { BhoysComponent } from './bhoys/bhoys.component';
+import { SigComponent } from './sig/sig.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,6 +20,7 @@ import { BhoysComponent } from './bhoys/bhoys.component';
     DashboardComponent,
     LameloComponent,
     BhoysComponent,
+    SigComponent,
   ],
   imports: [
     BrowserModule,

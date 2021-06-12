@@ -198,6 +198,7 @@ export class MowComponent implements OnInit {
     let dict: Dictionary<Standing> = {};
     
     for(let i=0; i<this.players.length; i++){
+      console.log(this.players[i].name)
       dict[this.players[i].name] = 
       {
         Player: this.players[i].name,
@@ -214,31 +215,52 @@ export class MowComponent implements OnInit {
 
     for(let i=0; i<this.results.length; i++){
       var result = this.results[i];  
-      dict[result.home_player].Played++;
-      dict[result.away_player].Played++;
-      dict[result.home_player].Scored += result.home_result;
-      dict[result.away_player].Scored += result.away_result;
-      dict[result.home_player].Conceded += result.away_result;
-      dict[result.away_player].Conceded += result.home_result;
-      if(result.home_result == result.away_result)
+      let home_players = result.home_player.split(',')
+      for(let j = 0; j<home_players.length; j++)
       {
-        dict[result.home_player].Points += 1;
-        dict[result.away_player].Points += 1;
-        dict[result.home_player].Draws += 1;
-        dict[result.away_player].Draws += 1;
+        let home_player = home_players[j].trim();
+        dict[home_player].Played++;
+        dict[home_player].Scored += result.home_result;
+        dict[home_player].Conceded += result.away_result;
+        if(result.home_result == result.away_result)
+        {
+          dict[home_player].Points += 1;
+          dict[home_player].Draws += 1;
+        }
+        else if(result.home_result > result.away_result)
+        {
+          dict[home_player].Points += 3;
+          dict[home_player].Wins += 1;
+        }
+        else if(result.home_result < result.away_result)
+        {
+          dict[home_player].Losses += 1;
+        }
       }
-      else if(result.home_result > result.away_result)
+      let away_players = result.away_player.split(',')
+      for(let j = 0; j<away_players.length; j++)
       {
-        dict[result.home_player].Points += 3;
-        dict[result.home_player].Wins += 1;
-        dict[result.away_player].Losses += 1;
+        let away_player = away_players[j].trim();
+        dict[away_player].Played++;
+        dict[away_player].Scored += result.away_result;
+        dict[away_player].Conceded += result.home_result;
+
+        if(result.home_result == result.away_result)
+        {
+          dict[away_player].Points += 1;
+          dict[away_player].Draws += 1;
+        }
+        else if(result.home_result > result.away_result)
+        {
+          dict[away_player].Losses += 1;
+        }
+        else if(result.home_result < result.away_result)
+        {
+          dict[away_player].Points += 3;
+          dict[away_player].Wins += 1;
+        }
       }
-      else if(result.home_result < result.away_result)
-      {
-        dict[result.away_player].Points += 3;
-        dict[result.home_player].Losses += 1;
-        dict[result.away_player].Wins += 1;
-      }
+      
     }
     var keys = Object.keys(dict);
     let standings = []

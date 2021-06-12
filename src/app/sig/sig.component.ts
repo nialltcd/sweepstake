@@ -67,12 +67,11 @@ export interface Standing {
 }
 
 @Component({
-  selector: 'app-lamelo',
-  templateUrl: './lamelo.component.html',
-  styleUrls: ['./lamelo.component.css']
+  selector: 'app-sig',
+  templateUrl: './sig.component.html',
+  styleUrls: ['./sig.component.css']
 })
-
-export class LameloComponent implements OnInit {
+export class SigComponent implements OnInit {
   
   form: FormGroup;
 
@@ -85,16 +84,20 @@ export class LameloComponent implements OnInit {
   teamDict: Dictionary<string[]> = {};
   teamNamesDict: Dictionary<string> = {};
   players = [
-    { name: "Laura", teams: ["Spain","Croatia","Ukraine","Russia"]},
-{ name: "Niall", teams: ["France","Denmark","Poland","North Macedonia"]},
-{ name: "Billy", teams: ["Portugal","Switzerland","Sweden","Finland"]},
-{ name: "Emma", teams: ["England","Switzerland","Austria","Hungary"]},
-{ name: "Majella", teams: ["Italy","Netherlands","Slovakia","Czech Republic"]},
-{ name: "John", teams: ["Belgium","Wales","Slovakia","Hungary"]},
-{ name: "Paddy", teams: ["England","Germany","Sweden","North Macedonia"]},
-{ name: "Siobhan", teams: ["Portugal","Wales","Poland","Scotland"]},
-{ name: "Roisin", teams: ["Spain","Netherlands","Turkey","Scotland"]},
-{ name: "Darren", teams: ["France","Croatia","Turkey","Finland"]},
+    { name: "Niall Hughes", teams: ["Belgium","Wales","Slovakia","North Macedonia"]},
+{ name: "Simon Duffy", teams: ["Portugal","Denmark","Sweden","Czech Republic"]},
+{ name: "Conor Malone", teams: ["Spain","Switzerland","Austria","Russia"]},
+{ name: "Patrick Dillon", teams: ["England","Netherlands","Poland","Hungary"]},
+{ name: "George McNally", teams: ["Italy","Germany","Ukraine","Scotland"]},
+{ name: "Vin Reddy", teams: ["France","Croatia","Turkey","Finland"]},
+{ name: "Mark Sheehan", teams: ["Italy","Croatia","Poland","North Macedonia"]},
+{ name: "Karl O'Brien", teams: ["Portugal","Switzerland","Austria","Czech Republic"]},
+{ name: "Nick Berry", teams: ["Belgium","Netherlands","Slovakia","Hungary"]},
+{ name: "Colin Colgan", teams: ["Spain","Wales","Ukraine","Finland"]},
+{ name: "Declan Greene", teams: ["France","Denmark","Sweden","Scotland"]},
+{ name: "Tom Davies", teams: ["England","Germany","Turkey","Russia"]},
+{ name: "John McCarthy", teams: ["England","Denmark","Sweden","North Macedonia"]},
+{ name: "Darren Lyne", teams: ["Belgium","Croatia","Turkey","Hungary"]},
   ]
        
    rows = [] as Standing[];
@@ -262,7 +265,7 @@ export class LameloComponent implements OnInit {
       standings.push(dict[keys[i]])
     }
     this.rows = standings.sort((a, b) => b.Points - a.Points);
-  }   
+  }  
 
   onChange(value:string){
     
