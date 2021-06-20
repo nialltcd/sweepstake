@@ -253,9 +253,11 @@ export class DolanComponent implements OnInit {
     let standings = []
     for (let i = 0; i<keys.length; i++)
     {
+      dict[keys[i]].Difference = dict[keys[i]].Scored - dict[keys[i]].Conceded;
       standings.push(dict[keys[i]])
     }
-    this.rows = standings.sort((a, b) => b.Points - a.Points);
+    this.rows = standings.sort((a, b) => b.Points - a.Points || b.Difference - a.Difference);
+  
   }  
 
   onChange(value:string){
