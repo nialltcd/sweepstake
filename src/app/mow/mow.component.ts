@@ -13,7 +13,7 @@ export interface Response {
   tvchannels: [];
   teams: Team[];
   groups: Group[];
-  knockoutphases: [];
+  knockoutphases: KnockoutRound[];
 }
 
 export interface Stadium {
@@ -44,6 +44,10 @@ export interface Match {
   away_player: string;
 }
 
+export interface KnockoutRound {
+  matches: Match[];
+}
+
 interface Dictionary<T> {
   [Key: string]: T;
 }
@@ -64,6 +68,7 @@ export interface Standing {
   Conceded: number;
   Difference: number;
   Points: number;
+  RemainingTeams: number;
 }
 
 @Component({
@@ -80,7 +85,7 @@ export class MowComponent implements OnInit {
   all_fixtures = [] as any;  
   all_results = [] as any;
   playerNames = [] as any;
-  headers = ["Player","Played","Wins","Losses","Draws","Scored","Conceded","Difference","Points"]
+  headers = ["Player","Played","Wins","Losses","Draws","Scored","Conceded","Difference","Remaining Teams","Points"]
   teamDict: Dictionary<string[]> = {};
   teamNamesDict: Dictionary<string> = {};
   players = [
@@ -152,7 +157,32 @@ export class MowComponent implements OnInit {
       this.createTeams(data.teams);
       this.createMatches(data);
       this.createEmptyStandings();
+      this.eliminateTeams();
     })
+  }
+
+  eliminateTeams()
+  {
+    for(let i=0; i<this.players.length; i++){
+      for(let j=0; j < this.players[i].teams.length; j++){
+        let eliminated = true;
+        for(let k=0; k < this.all_fixtures.length && eliminated; k++){
+          console.log(this.all_fixtures[k])
+          if(this.all_fixtures[k].home_team_ui == this.players[i].teams[j]
+            || this.all_fixtures[k].away_team_ui == this.players[i].teams[j])
+            eliminated = false;
+        }
+        if(eliminated)
+          this.players[i].teams[j] = this.players[i].teams[j] + " (ELIMINATED)";
+        else{
+          for(let l=0; l < this.rows.length; l++)
+          {
+            if(this.rows[l].Player == this.players[i].name)
+              this.rows[l].RemainingTeams++;
+          }
+        }
+      }
+    }
   }
 
   createTeams(teams: Team[])
@@ -186,6 +216,22 @@ export class MowComponent implements OnInit {
       }
     }
     
+    for(let key in data.knockoutphases){
+      for(let j=0; j<data.knockoutphases[key].matches.length; j++){
+        var match = data.knockoutphases[key].matches[j];
+        if(match.home_team == null) continue;
+        console.log(match)
+        match.home_team_ui = this.teamNamesDict[match.home_team]
+        match.away_team_ui = this.teamNamesDict[match.away_team]        
+        match.home_player = this.teamDict[match.home_team_ui].join(", ",)
+        match.away_player = this.teamDict[match.away_team_ui].join(", ",)
+        if(match.finished)
+          results.push(match);
+        else
+          fixtures.push(match);
+      }
+    }
+
     console.log(this.fixtures)
     this.fixtures = fixtures.sort((a, b) => parseInt(a.id) - parseInt(b.id));
     this.all_fixtures = this.fixtures
@@ -210,6 +256,7 @@ export class MowComponent implements OnInit {
         Conceded: 0,
         Difference: 0,
         Points: 0,
+        RemainingTeams: 0,
       }
     }
 
