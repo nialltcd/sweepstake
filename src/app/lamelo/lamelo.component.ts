@@ -46,6 +46,9 @@ export interface Match {
   finished: boolean;
   home_player: string;
   away_player: string;
+  matchtype: string;
+  winner: string;
+  comment: string;
 }
 
 interface Dictionary<T> {
@@ -218,7 +221,14 @@ export class LameloComponent implements OnInit {
         match.home_player = this.teamDict[match.home_team_ui].join(", ",)
         match.away_player = this.teamDict[match.away_team_ui].join(", ",)
         if(match.finished)
+        {
+          if(match.matchtype == "knockout" && match.home_result == match.away_result)
+          {
+            let winner = this.teamNamesDict[match.winner]
+            match.comment = winner + " won on penalties";
+          }
           results.push(match);
+        }
         else
           fixtures.push(match);
       }
@@ -261,7 +271,20 @@ export class LameloComponent implements OnInit {
         dict[home_player].Played++;
         dict[home_player].Scored += result.home_result;
         dict[home_player].Conceded += result.away_result;
-        if(result.home_result == result.away_result)
+        if(result.matchtype == "knockout" && result.home_result == result.away_result)
+        {
+          //console.log(result)
+          if(result.winner == result.home_team)
+          { 
+            dict[home_player].Points += 3;
+            dict[home_player].Wins += 1;
+          }
+          else
+          {
+            dict[home_player].Losses += 1;
+          }
+        }
+        else if(result.matchtype == "group" && result.home_result == result.away_result)
         {
           dict[home_player].Points += 1;
           dict[home_player].Draws += 1;
@@ -284,7 +307,20 @@ export class LameloComponent implements OnInit {
         dict[away_player].Scored += result.away_result;
         dict[away_player].Conceded += result.home_result;
 
-        if(result.home_result == result.away_result)
+        if(result.matchtype == "knockout" && result.home_result == result.away_result)
+        {
+          //console.log(result)
+          if(result.winner == result.away_team)
+          { 
+            dict[away_player].Points += 3;
+            dict[away_player].Wins += 1;
+          }
+          else
+          {
+            dict[away_player].Losses += 1;
+          }
+        }
+        else if(result.matchtype == "group" && result.home_result == result.away_result)
         {
           dict[away_player].Points += 1;
           dict[away_player].Draws += 1;

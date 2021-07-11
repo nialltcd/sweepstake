@@ -63,14 +63,16 @@
                   <th>Score</th>
                   <th>Team B</th>
                   <th>Date</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let result of results">
-                  <td>{{result.home_team}} ({{result.home_player}})</td>
-                  <td>{{result.home_result}} - {{result.away_result}}</td>
-                  <td>{{result.away_team}} ({{result.away_player}})</td>
-                  <td>{{result.date| date: 'dd/MM/yyyy HH:mm'}}</td>
+                  <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let result of results">
+                    <td>{{result.home_team}} ({{result.home_player}})</td>
+                    <td>{{result.home_result}} - {{result.away_result}}</td>
+                    <td>{{result.away_team}} ({{result.away_player}})</td>
+                    <td>{{result.date| date: 'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{result.comment}}</td>
               </tr>
           </tbody>
       </table>

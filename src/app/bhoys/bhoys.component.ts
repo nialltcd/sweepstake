@@ -46,6 +46,9 @@ export interface Match {
   finished: boolean;
   home_player: string;
   away_player: string;
+  matchtype: string;
+  winner: string;
+  comment: string;
 }
 
 interface Dictionary<T> {
@@ -158,7 +161,7 @@ export class BhoysComponent implements OnInit {
       for(let j=0; j < this.players[i].teams.length; j++){
         let eliminated = true;
         for(let k=0; k < this.all_fixtures.length && eliminated; k++){
-          console.log(this.all_fixtures[k])
+          
           if(this.all_fixtures[k].home_team_ui == this.players[i].teams[j]
             || this.all_fixtures[k].away_team_ui == this.players[i].teams[j])
             eliminated = false;
@@ -189,19 +192,19 @@ export class BhoysComponent implements OnInit {
   {
     let fixtures = [] as Match[]
     let results = []
-    console.log(this.teamNamesDict)
-    console.log(this.teamDict)
     for(let i=0; i<data.groups.length; i++){
       for(let j=0; j<data.groups[i].matches.length; j++){
         var match = data.groups[i].matches[j];
         
-        console.log(match)
+        
         match.home_team_ui = this.teamNamesDict[match.home_team]
         match.away_team_ui = this.teamNamesDict[match.away_team]
         match.home_player = this.teamDict[match.home_team_ui].join(", ",)
         match.away_player = this.teamDict[match.away_team_ui].join(", ",)
         if(match.finished)
+        {
           results.push(match);
+        }
         else
           fixtures.push(match);
       }
@@ -211,19 +214,26 @@ export class BhoysComponent implements OnInit {
       for(let j=0; j<data.knockoutphases[key].matches.length; j++){
         var match = data.knockoutphases[key].matches[j];
         if(match.home_team == null) continue;
-        console.log(match)
+        
         match.home_team_ui = this.teamNamesDict[match.home_team]
         match.away_team_ui = this.teamNamesDict[match.away_team]        
         match.home_player = this.teamDict[match.home_team_ui].join(", ",)
         match.away_player = this.teamDict[match.away_team_ui].join(", ",)
         if(match.finished)
+        {
+          if(match.matchtype == "knockout" && match.home_result == match.away_result)
+          {
+            let winner = this.teamNamesDict[match.winner]
+            match.comment = winner + " won on penalties";
+          }
           results.push(match);
+        }
         else
           fixtures.push(match);
       }
     }
 
-    console.log(this.fixtures)
+    
     this.fixtures = fixtures.sort((a, b) => parseInt(a.id) - parseInt(b.id));
     this.all_fixtures = this.fixtures
     this.results = results.sort((a, b) => parseInt(a.id) - parseInt(b.id));
@@ -235,7 +245,6 @@ export class BhoysComponent implements OnInit {
     let dict: Dictionary<Standing> = {};
     
     for(let i=0; i<this.players.length; i++){
-      console.log(this.players[i].name)
       dict[this.players[i].name] = 
       {
         Player: this.players[i].name,
@@ -253,6 +262,7 @@ export class BhoysComponent implements OnInit {
 
     for(let i=0; i<this.results.length; i++){
       var result = this.results[i];  
+      
       let home_players = result.home_player.split(',')
       for(let j = 0; j<home_players.length; j++)
       {
@@ -260,12 +270,25 @@ export class BhoysComponent implements OnInit {
         dict[home_player].Played++;
         dict[home_player].Scored += result.home_result;
         dict[home_player].Conceded += result.away_result;
-        if(result.home_result == result.away_result)
+        if(result.matchtype == "knockout" && result.home_result == result.away_result)
+        {
+          //console.log(result)
+          if(result.winner == result.home_team)
+          { 
+            dict[home_player].Points += 3;
+            dict[home_player].Wins += 1;
+          }
+          else
+          {
+            dict[home_player].Losses += 1;
+          }
+        }
+        else if(result.matchtype == "group" && result.home_result == result.away_result)
         {
           dict[home_player].Points += 1;
           dict[home_player].Draws += 1;
         }
-        else if(result.home_result > result.away_result)
+        else if(result.home_result > result.away_result || (result.matchtype == "knockout" && result.winner == result.home_team))
         {
           dict[home_player].Points += 3;
           dict[home_player].Wins += 1;
@@ -273,6 +296,10 @@ export class BhoysComponent implements OnInit {
         else if(result.home_result < result.away_result)
         {
           dict[home_player].Losses += 1;
+        }
+        else
+        {
+          console.log("ERROR!!!")
         }
       }
       let away_players = result.away_player.split(',')
@@ -283,7 +310,20 @@ export class BhoysComponent implements OnInit {
         dict[away_player].Scored += result.away_result;
         dict[away_player].Conceded += result.home_result;
 
-        if(result.home_result == result.away_result)
+        if(result.matchtype == "knockout" && result.home_result == result.away_result)
+        {
+          //console.log(result)
+          if(result.winner == result.away_team)
+          { 
+            dict[away_player].Points += 3;
+            dict[away_player].Wins += 1;
+          }
+          else
+          {
+            dict[away_player].Losses += 1;
+          }
+        }
+        else if(result.matchtype == "group" && result.home_result == result.away_result)
         {
           dict[away_player].Points += 1;
           dict[away_player].Draws += 1;
@@ -313,14 +353,13 @@ export class BhoysComponent implements OnInit {
 
   onChange(value:string){
     
-    console.log(value)
+    
     if(value == "All Players")
     {
       this.fixtures = this.all_fixtures
       this.results = this.all_results
       return
     }
-    console.log(value)
     let fixtures = []
     let results = []
     for(let i=0; i<this.all_fixtures.length; i++){
@@ -347,9 +386,8 @@ export class BhoysComponent implements OnInit {
     let player = value.value.name;
     let fixtures = []
     let results = []
-    console.log(player)
     for(let i=0; i<this.all_fixtures.length; i++){
-      console.log(this.all_fixtures[i])
+      
       if(this.all_fixtures[i].home_player.includes(player) 
         || this.all_fixtures[i].away_player.includes(player))
         fixtures.push(this.all_fixtures[i])
